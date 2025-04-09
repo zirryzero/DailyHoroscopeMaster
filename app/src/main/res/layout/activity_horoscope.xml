@@ -1,32 +1,86 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/horoscopeRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/background_main"
+    android:padding="0dp"
+    tools:context=".HoroscopeActivity">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_height="match_parent"
+        android:layout_above="@id/adViewHoroscope"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/horoscopeText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/loading"
-            android:textSize="18sp"
-            android:textColor="?android:textColorPrimary"
-            android:layout_marginBottom="16dp" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/shareButton"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/share_horoscope"
-            android:textColor="@android:color/white"
-            android:backgroundTint="?attr/colorPrimary" />
+            <TextView
+                android:id="@+id/horoscopeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:shadowColor="#80000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:text=" "
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    </LinearLayout>
-</ScrollView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:padding="20dp"
+                app:cardBackgroundColor="#AAFFFFFF"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="6dp">
+
+                <TextView
+                    android:id="@+id/horoscopeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="6dp"
+                    android:padding="16dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shareButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="?attr/colorPrimary"
+                android:drawableStart="@drawable/ic_share"
+                android:text="@string/share_horoscope"
+                android:textColor="@android:color/white"
+                app:iconPadding="8dp"
+                app:iconTint="@android:color/white" />
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewHoroscope"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="0dp"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-5449126088818586/3470552709" />
+
+</RelativeLayout>

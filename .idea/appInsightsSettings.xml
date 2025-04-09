@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.powerdevelop.dailyhoroscope" />
+                  <option name="mobileSdkAppId" value="1:374579542000:android:9371c68c7475c3e840cf35" />
+                  <option name="projectId" value="powerdevelopdailyhoroscope" />
+                  <option name="projectNumber" value="374579542000" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

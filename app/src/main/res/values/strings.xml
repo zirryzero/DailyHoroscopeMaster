@@ -5,4 +5,5 @@
     <string name="zodiac_sign">Zodiac Sign</string>
     <string name="choose_your_zodiac_sign">Choose Your Zodiac Sign</string>
     <string name="share_horoscope">Share Horoscope</string>
+    <string name="loading_title">Loading title...</string>
 </resources>

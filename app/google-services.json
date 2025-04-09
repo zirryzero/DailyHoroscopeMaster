@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "374579542000",
+    "project_id": "powerdevelopdailyhoroscope",
+    "storage_bucket": "powerdevelopdailyhoroscope.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374579542000:android:9371c68c7475c3e840cf35",
+        "android_client_info": {
+          "package_name": "com.powerdevelop.dailyhoroscope"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA__uJSY9Lq7-r9eHhLTYvdoQy-DIy90zM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
