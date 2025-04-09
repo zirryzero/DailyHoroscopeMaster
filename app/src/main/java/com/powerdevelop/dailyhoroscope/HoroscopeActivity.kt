@@ -1,5 +1,6 @@
 package com.powerdevelop.dailyhoroscope
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,7 @@ class HoroscopeActivity : AppCompatActivity() {
                 }
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: Response) {
                 val json = JSONObject(response.body?.string() ?: "")
                 val data = json.getJSONObject("data") // <- accede al objeto 'data'
