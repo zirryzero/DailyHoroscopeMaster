@@ -1,34 +1,37 @@
 package com.powerdevelop.dailyhoroscope
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    private val signs = listOf(
-        "aries", "taurus", "gemini", "cancer",
-        "leo", "virgo", "libra", "scorpio",
-        "sagittarius", "capricorn", "aquarius", "pisces"
-    )
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val layout = findViewById<LinearLayout>(R.id.signsLayout)
+        recyclerView = findViewById(R.id.recyclerViewSigns)
+        recyclerView.layoutManager = GridLayoutManager(this, 3)
 
-        signs.forEach { sign ->
-            val button = Button(this)
-            button.text = sign.replaceFirstChar { it.uppercase() }
-            button.setOnClickListener {
-                val intent = Intent(this, HoroscopeActivity::class.java)
-                intent.putExtra("sign", sign)
-                startActivity(intent)
-            }
-            layout.addView(button)
-        }
+        val signs = listOf(
+            Sign("aries", R.drawable.aries),
+            Sign("taurus", R.drawable.taurus),
+            Sign("gemini", R.drawable.gemini),
+            Sign("cancer", R.drawable.cancer),
+            Sign("leo", R.drawable.leo),
+            Sign("virgo", R.drawable.virgo),
+            Sign("libra", R.drawable.libra),
+            Sign("scorpio", R.drawable.scorpio),
+            Sign("sagittarius", R.drawable.sagittarius),
+            Sign("capricorn", R.drawable.capricorn),
+            Sign("aquarius", R.drawable.aquarius),
+            Sign("pisces", R.drawable.pisces)
+        )
+
+        recyclerView.adapter = SignAdapter(this, signs)
     }
 }
