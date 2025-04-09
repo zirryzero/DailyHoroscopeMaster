@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Daily Horoscope</string>
+    <string name="loading">Loading…</string>
+    <string name="error_message">Failed to load horoscope. Please try again.</string>
 </resources>
