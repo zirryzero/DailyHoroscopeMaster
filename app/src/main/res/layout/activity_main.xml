@@ -10,11 +10,12 @@
         android:layout_height="wrap_content"
         android:text="@string/choose_your_zodiac_sign"
         android:textSize="24sp"
-        android:textColor="#333333"
         android:textStyle="bold"
         android:gravity="center"
         android:layout_marginBottom="12dp"
+        android:textColor="?android:textColorPrimary"
         android:fontFamily="sans-serif-medium" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSigns"
