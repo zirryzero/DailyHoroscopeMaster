@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
@@ -34,7 +35,7 @@ class HoroscopeActivity : AppCompatActivity() {
         horoscopeText = findViewById(R.id.horoscopeText)
         val sign = intent.getStringExtra("sign") ?: return
 
-        val root = findViewById<View>(android.R.id.content)
+        val rootLayout = findViewById<View>(R.id.horoscopeRoot)
 
         val backgroundResId = when (sign.lowercase()) {
             "aries" -> R.drawable.background_aries
@@ -51,8 +52,7 @@ class HoroscopeActivity : AppCompatActivity() {
             "pisces" -> R.drawable.background_pisces
             else -> R.drawable.background_main
         }
-
-        root.setBackgroundResource(backgroundResId)
+        rootLayout.setBackgroundResource(backgroundResId)
 
         val url = "https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=$sign"
 
@@ -75,7 +75,7 @@ class HoroscopeActivity : AppCompatActivity() {
                 val date = data.getString("date")
 
                 runOnUiThread {
-                    horoscopeText.text = "Horoscope for $sign ($date):\n\n$prediction"
+                    "Horoscope for $sign ($date):\n\n$prediction".also { horoscopeText.text = it }
                 }
                 currentHoroscope = """
                     🔮 Here's my daily horoscope from the Daily Horoscope App:
