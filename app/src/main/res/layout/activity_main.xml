@@ -59,14 +59,14 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!-- Quick Tool Buttons: Find My Sign & Compatibility -->
+    <!-- Quick Tool Buttons Row 1: Find My Sign & Compatibility -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingHorizontal="12dp"
         android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+        android:paddingBottom="2dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/btnFindSignCard"
@@ -88,12 +88,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingVertical="8dp"
-                android:paddingHorizontal="10dp">
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="8dp">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:contentDescription="@string/find_my_sign"
                     android:src="@drawable/ic_calendar" />
 
@@ -105,7 +105,7 @@
                     android:maxLines="1"
                     android:text="@string/find_my_sign"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -130,12 +130,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingVertical="8dp"
-                android:paddingHorizontal="10dp">
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="8dp">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:contentDescription="@string/sign_compatibility"
                     android:src="@drawable/ic_favorite_heart" />
 
@@ -147,7 +147,101 @@
                     android:maxLines="1"
                     android:text="@string/sign_compatibility"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- Quick Tool Buttons Row 2: Daily Tarot & Fortune Cookie -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="4dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnTarotCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="#22FFFFFF"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#35FFFFFF"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/daily_tarot"
+                    android:src="@drawable/ic_tarot_card" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/daily_tarot"
+                    android:textColor="@android:color/white"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnFortuneCookieCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="#22FFFFFF"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#35FFFFFF"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/fortune_cookie"
+                    android:src="@drawable/ic_fortune_cookie" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/fortune_cookie"
+                    android:textColor="@android:color/white"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -159,8 +253,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="4dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"

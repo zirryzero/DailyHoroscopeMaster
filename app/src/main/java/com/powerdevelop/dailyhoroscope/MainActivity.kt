@@ -20,7 +20,11 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.powerdevelop.dailyhoroscope.databinding.ActivityMainBinding
 import com.powerdevelop.dailyhoroscope.databinding.DialogCompatibilityBinding
+import com.powerdevelop.dailyhoroscope.databinding.DialogTarotBinding
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -81,6 +85,16 @@ class MainActivity : AppCompatActivity() {
         // Compatibility tool
         binding.btnCompatibilityCard.setOnClickListener {
             showCompatibilityDialog()
+        }
+
+        // Daily Tarot tool
+        binding.btnTarotCard.setOnClickListener {
+            showDailyTarotDialog()
+        }
+
+        // Fortune Cookie tool
+        binding.btnFortuneCookieCard.setOnClickListener {
+            showFortuneCookieDialog()
         }
 
         binding.recyclerViewSigns.layoutManager = GridLayoutManager(this, 3)
@@ -170,6 +184,37 @@ class MainActivity : AppCompatActivity() {
             }
         }
         dialog.show()
+    }
+
+    private fun showDailyTarotDialog() {
+        val isSpanish = LocaleHelper.isSpanish(this)
+        val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+        val favSignId = FavoriteManager.getFavoriteSign(this) ?: "general"
+        val tarot = AstrologyDataHub.getDailyTarot(favSignId, todayStr, isSpanish)
+
+        val dialogBinding = DialogTarotBinding.inflate(LayoutInflater.from(this))
+        dialogBinding.tarotEmoji.text = tarot.iconEmoji
+        dialogBinding.tarotCardName.text = tarot.name
+        dialogBinding.tarotCardMeaning.text = tarot.meaning
+
+        AlertDialog.Builder(this)
+            .setTitle(R.string.daily_tarot)
+            .setView(dialogBinding.root)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+    }
+
+    private fun showFortuneCookieDialog() {
+        val isSpanish = LocaleHelper.isSpanish(this)
+        val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+        val message = AstrologyDataHub.getFortuneCookie(todayStr, isSpanish)
+
+        AlertDialog.Builder(this)
+            .setTitle(R.string.fortune_cookie_title)
+            .setMessage("🥠 \"$message\"")
+            .setIcon(R.drawable.ic_fortune_smile)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
     }
 
     private fun checkAndRequestNotificationPermission() {

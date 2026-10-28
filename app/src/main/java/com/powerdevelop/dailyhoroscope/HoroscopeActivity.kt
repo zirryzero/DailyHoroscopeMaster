@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.powerdevelop.dailyhoroscope.databinding.ActivityHoroscopeBinding
+import com.powerdevelop.dailyhoroscope.databinding.DialogSignProfileBinding
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -92,6 +94,11 @@ class HoroscopeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             showFontSizeDialog()
         }
 
+        // Sign Profile Dialog
+        binding.btnSignProfile.setOnClickListener {
+            showSignProfileDialog()
+        }
+
         // TTS Setup
         tts = TextToSpeech(this, this)
         binding.btnTts.setOnClickListener {
@@ -131,6 +138,23 @@ class HoroscopeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         // Show cached version first if available, then refresh
         loadCachedHoroscope()
         fetchHoroscope()
+    }
+
+    private fun showSignProfileDialog() {
+        val isSpanish = LocaleHelper.isSpanish(this)
+        val profile = AstrologyDataHub.getSignProfile(signId, isSpanish)
+        val dialogBinding = DialogSignProfileBinding.inflate(LayoutInflater.from(this))
+
+        dialogBinding.profileSignTitle.text = "$signDisplayName ${profile.symbol}"
+        dialogBinding.profileSymbol.text = profile.symbol
+        dialogBinding.profileElement.text = profile.element
+        dialogBinding.profilePlanet.text = profile.rulingPlanet
+        dialogBinding.profileStrengths.text = profile.strengths
+
+        AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
     }
 
     override fun onInit(status: Int) {
@@ -291,8 +315,20 @@ class HoroscopeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             binding.horoscopeDateText.visibility = View.GONE
         }
 
+        val effectiveDate = if (date.isNotEmpty()) date else "daily"
+
+        // Setup Cosmic Levels
+        val levels = AstrologyDataHub.getCosmicLevels(signId, effectiveDate)
+        binding.cosmicLevelsCard.visibility = View.VISIBLE
+        binding.progressLove.progress = levels.lovePercent
+        binding.textLovePercent.text = "${levels.lovePercent}%"
+        binding.progressMoney.progress = levels.moneyPercent
+        binding.textMoneyPercent.text = "${levels.moneyPercent}%"
+        binding.progressHealth.progress = levels.healthPercent
+        binding.textHealthPercent.text = "${levels.healthPercent}%"
+
         // Setup Lucky Extras
-        val extras = HoroscopeExtrasGenerator.generate(signId, if (date.isNotEmpty()) date else "daily")
+        val extras = HoroscopeExtrasGenerator.generate(signId, effectiveDate)
         binding.luckyCard.visibility = View.VISIBLE
         binding.luckyNumbersText.text = extras.luckyNumbers.joinToString(" • ")
         binding.luckyColorText.setText(extras.colorNameRes)
@@ -321,6 +357,7 @@ class HoroscopeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             binding.predictionCard.visibility = View.GONE
             binding.actionButtonsLayout.visibility = View.GONE
             binding.luckyCard.visibility = View.GONE
+            binding.cosmicLevelsCard.visibility = View.GONE
         }
         binding.loadingLayout.visibility = View.VISIBLE
         binding.errorLayout.visibility = View.GONE
@@ -332,6 +369,7 @@ class HoroscopeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             binding.predictionCard.visibility = View.GONE
             binding.actionButtonsLayout.visibility = View.GONE
             binding.luckyCard.visibility = View.GONE
+            binding.cosmicLevelsCard.visibility = View.GONE
             binding.errorLayout.visibility = View.VISIBLE
             binding.errorText.text = message
         }

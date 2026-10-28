@@ -40,6 +40,21 @@
     <string name="friendship_compatibility">Friendship</string>
     <string name="work_compatibility">Work</string>
 
+    <!-- New Astrological Enhancements -->
+    <string name="daily_tarot">Daily Tarot</string>
+    <string name="daily_tarot_desc">Reveal your arcana card for today</string>
+    <string name="fortune_cookie">Fortune Cookie</string>
+    <string name="fortune_cookie_title">Your Fortune Cookie Message</string>
+    <string name="sign_profile">Sign Traits</string>
+    <string name="element">Element</string>
+    <string name="ruling_planet">Ruling Planet</string>
+    <string name="strengths">Key Traits</string>
+    <string name="symbol">Symbol</string>
+    <string name="health">Health &amp; Energy</string>
+    <string name="money">Finances &amp; Success</string>
+    <string name="cosmic_levels">Daily Cosmic Energy</string>
+    <string name="widget_name">Daily Horoscope Widget</string>
+
     <!-- Notifications & Rating -->
     <string name="daily_reminder">Daily Reminder</string>
     <string name="reminder_enabled">Daily notification enabled for %s</string>

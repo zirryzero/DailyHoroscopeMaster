@@ -40,6 +40,21 @@
     <string name="friendship_compatibility">Amistad</string>
     <string name="work_compatibility">Trabajo</string>
 
+    <!-- Nuevas Mejoras Astrológicas -->
+    <string name="daily_tarot">Tarot Diario</string>
+    <string name="daily_tarot_desc">Descubre tu arcano del día</string>
+    <string name="fortune_cookie">Galleta de la Fortuna</string>
+    <string name="fortune_cookie_title">Tu Mensaje de la Fortuna</string>
+    <string name="sign_profile">Perfil del Signo</string>
+    <string name="element">Elemento</string>
+    <string name="ruling_planet">Planeta Regente</string>
+    <string name="strengths">Rasgos Clave</string>
+    <string name="symbol">Símbolo</string>
+    <string name="health">Salud &amp; Energía</string>
+    <string name="money">Dinero &amp; Éxito</string>
+    <string name="cosmic_levels">Energía Cósmica del Día</string>
+    <string name="widget_name">Widget Horóscopo Diario</string>
+
     <!-- Notificaciones & Calificación -->
     <string name="daily_reminder">Recordatorio Diario</string>
     <string name="reminder_enabled">Notificación diaria activada para las %s</string>
