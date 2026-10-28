@@ -8,41 +8,60 @@
     <string name="share_horoscope">Share Horoscope</string>
     <string name="loading_title">Loading...</string>
     <string name="back">Back</string>
+    <string name="settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="lang_system_default">System default</string>
+    <string name="lang_spanish">Spanish (Español)</string>
+    <string name="lang_english">English</string>
+    <string name="cancel">Cancel</string>
 
-    <!-- Sign names and date ranges -->
-    <string name="sign_aries">Aries</string>
-    <string name="date_aries">Mar 21 - Apr 19</string>
-
-    <string name="sign_taurus">Taurus</string>
-    <string name="date_taurus">Apr 20 - May 20</string>
-
-    <string name="sign_gemini">Gemini</string>
-    <string name="date_gemini">May 21 - Jun 20</string>
-
-    <string name="sign_cancer">Cancer</string>
-    <string name="date_cancer">Jun 21 - Jul 22</string>
-
-    <string name="sign_leo">Leo</string>
-    <string name="date_leo">Jul 23 - Aug 22</string>
-
-    <string name="sign_virgo">Virgo</string>
-    <string name="date_virgo">Aug 23 - Sep 22</string>
-
-    <string name="sign_libra">Libra</string>
-    <string name="date_libra">Sep 23 - Oct 22</string>
-
-    <string name="sign_scorpio">Scorpio</string>
-    <string name="date_scorpio">Oct 23 - Nov 21</string>
-
-    <string name="sign_sagittarius">Sagittarius</string>
-    <string name="date_sagittarius">Nov 22 - Dec 21</string>
-
+    <!-- Sign names and date ranges ordered by month -->
+    <!-- 1. January: Capricorn (Dec 22 - Jan 19) -->
     <string name="sign_capricorn">Capricorn</string>
     <string name="date_capricorn">Dec 22 - Jan 19</string>
 
+    <!-- 2. February: Aquarius (Jan 20 - Feb 18) -->
     <string name="sign_aquarius">Aquarius</string>
     <string name="date_aquarius">Jan 20 - Feb 18</string>
 
+    <!-- 3. March: Pisces (Feb 19 - Mar 20) -->
     <string name="sign_pisces">Pisces</string>
     <string name="date_pisces">Feb 19 - Mar 20</string>
+
+    <!-- 4. April: Aries (Mar 21 - Apr 19) -->
+    <string name="sign_aries">Aries</string>
+    <string name="date_aries">Mar 21 - Apr 19</string>
+
+    <!-- 5. May: Taurus (Apr 20 - May 20) -->
+    <string name="sign_taurus">Taurus</string>
+    <string name="date_taurus">Apr 20 - May 20</string>
+
+    <!-- 6. June: Gemini (May 21 - Jun 20) -->
+    <string name="sign_gemini">Gemini</string>
+    <string name="date_gemini">May 21 - Jun 20</string>
+
+    <!-- 7. July: Cancer (Jun 21 - Jul 22) -->
+    <string name="sign_cancer">Cancer</string>
+    <string name="date_cancer">Jun 21 - Jul 22</string>
+
+    <!-- 8. August: Leo (Jul 23 - Aug 22) -->
+    <string name="sign_leo">Leo</string>
+    <string name="date_leo">Jul 23 - Aug 22</string>
+
+    <!-- 9. September: Virgo (Aug 23 - Sep 22) -->
+    <string name="sign_virgo">Virgo</string>
+    <string name="date_virgo">Aug 23 - Sep 22</string>
+
+    <!-- 10. October: Libra (Sep 23 - Oct 22) -->
+    <string name="sign_libra">Libra</string>
+    <string name="date_libra">Sep 23 - Oct 22</string>
+
+    <!-- 11. November: Scorpio (Oct 23 - Nov 21) -->
+    <string name="sign_scorpio">Scorpio</string>
+    <string name="date_scorpio">Oct 23 - Nov 21</string>
+
+    <!-- 12. December: Sagittarius (Nov 22 - Dec 21) -->
+    <string name="sign_sagittarius">Sagittarius</string>
+    <string name="date_sagittarius">Nov 22 - Dec 21</string>
 </resources>

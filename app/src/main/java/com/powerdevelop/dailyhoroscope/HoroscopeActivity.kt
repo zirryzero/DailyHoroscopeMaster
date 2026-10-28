@@ -82,10 +82,16 @@ class HoroscopeActivity : AppCompatActivity() {
         fetchHoroscope()
     }
 
+    private fun getCacheKey(): String {
+        val langSuffix = if (HoroscopeTranslator.shouldTranslateToSpanish(this)) "_es" else "_en"
+        return signId + langSuffix
+    }
+
     private fun loadCachedHoroscope() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val cachedText = prefs.getString(KEY_PREF_TEXT + signId, null)
-        val cachedDate = prefs.getString(KEY_PREF_DATE + signId, null)
+        val cacheKey = getCacheKey()
+        val cachedText = prefs.getString(KEY_PREF_TEXT + cacheKey, null)
+        val cachedDate = prefs.getString(KEY_PREF_DATE + cacheKey, null)
 
         if (!cachedText.isNullOrEmpty()) {
             displayHoroscope(cachedText, cachedDate ?: "")
@@ -94,9 +100,10 @@ class HoroscopeActivity : AppCompatActivity() {
 
     private fun saveCachedHoroscope(text: String, date: String) {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val cacheKey = getCacheKey()
         prefs.edit()
-            .putString(KEY_PREF_TEXT + signId, text)
-            .putString(KEY_PREF_DATE + signId, date)
+            .putString(KEY_PREF_TEXT + cacheKey, text)
+            .putString(KEY_PREF_DATE + cacheKey, date)
             .apply()
     }
 
@@ -129,18 +136,24 @@ class HoroscopeActivity : AppCompatActivity() {
                     val json = JSONObject(bodyString)
                     val data = json.getJSONObject("data")
 
-                    // Safely extract prediction: new API uses "horoscope", legacy used "horoscope_data"
-                    val prediction = when {
+                    val rawPrediction = when {
                         data.has("horoscope") -> data.getString("horoscope")
                         data.has("horoscope_data") -> data.getString("horoscope_data")
                         else -> throw IllegalArgumentException("Missing horoscope field in response")
                     }
                     val date = data.optString("date", "")
 
-                    saveCachedHoroscope(prediction, date)
+                    // Translate to Spanish if user configured/system language is Spanish
+                    val finalPrediction = if (HoroscopeTranslator.shouldTranslateToSpanish(this@HoroscopeActivity)) {
+                        HoroscopeTranslator.translateEnToEs(client, rawPrediction)
+                    } else {
+                        rawPrediction
+                    }
+
+                    saveCachedHoroscope(finalPrediction, date)
 
                     runOnUiThread {
-                        displayHoroscope(prediction, date)
+                        displayHoroscope(finalPrediction, date)
                     }
                 } catch (ex: Exception) {
                     runOnUiThread {
@@ -178,7 +191,6 @@ class HoroscopeActivity : AppCompatActivity() {
     }
 
     private fun showLoading() {
-        // If we already have content showing, keep card visible but show subtle loading or just show layout if empty
         if (binding.horoscopeText.text.isNullOrEmpty()) {
             binding.predictionCard.visibility = View.GONE
             binding.shareButton.visibility = View.GONE
@@ -189,7 +201,6 @@ class HoroscopeActivity : AppCompatActivity() {
 
     private fun showError(message: String) {
         binding.loadingLayout.visibility = View.GONE
-        // If we have cached content already displayed, don't hide the card, just inform if needed
         if (binding.horoscopeText.text.isNullOrEmpty()) {
             binding.predictionCard.visibility = View.GONE
             binding.shareButton.visibility = View.GONE
