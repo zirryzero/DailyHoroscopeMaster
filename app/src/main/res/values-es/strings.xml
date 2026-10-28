@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Horóscopo Diario</string>
+    <string name="loading">Cargando horóscopo…</string>
+    <string name="error_message">No se pudo cargar el horóscopo. Revisa tu conexión a internet.</string>
+    <string name="retry">Reintentar</string>
+    <string name="zodiac_sign">Signo zodiacal</string>
+    <string name="choose_your_zodiac_sign">Elige tu Signo Zodiacal</string>
+    <string name="share_horoscope">Compartir Horóscopo</string>
+    <string name="loading_title">Cargando...</string>
+    <string name="back">Atrás</string>
+
+    <!-- Nombres de los signos y rangos de fechas -->
+    <string name="sign_aries">Aries</string>
+    <string name="date_aries">21 Mar - 19 Abr</string>
+
+    <string name="sign_taurus">Tauro</string>
+    <string name="date_taurus">20 Abr - 20 May</string>
+
+    <string name="sign_gemini">Géminis</string>
+    <string name="date_gemini">21 May - 20 Jun</string>
+
+    <string name="sign_cancer">Cáncer</string>
+    <string name="date_cancer">21 Jun - 22 Jul</string>
+
+    <string name="sign_leo">Leo</string>
+    <string name="date_leo">23 Jul - 22 Ago</string>
+
+    <string name="sign_virgo">Virgo</string>
+    <string name="date_virgo">23 Ago - 22 Sep</string>
+
+    <string name="sign_libra">Libra</string>
+    <string name="date_libra">23 Sep - 22 Oct</string>
+
+    <string name="sign_scorpio">Escorpio</string>
+    <string name="date_scorpio">23 Oct - 21 Nov</string>
+
+    <string name="sign_sagittarius">Sagitario</string>
+    <string name="date_sagittarius">22 Nov - 21 Dic</string>
+
+    <string name="sign_capricorn">Capricornio</string>
+    <string name="date_capricorn">22 Dic - 19 Ene</string>
+
+    <string name="sign_aquarius">Acuario</string>
+    <string name="date_aquarius">20 Ene - 18 Feb</string>
+
+    <string name="sign_pisces">Piscis</string>
+    <string name="date_pisces">19 Feb - 20 Mar</string>
+</resources>
+

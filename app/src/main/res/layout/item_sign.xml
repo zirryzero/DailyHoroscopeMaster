@@ -1,21 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="6dp"
-    app:cardBackgroundColor="@android:color/transparent"
-    app:strokeWidth="2dp"
-    app:strokeColor="@android:color/black"
-    android:layout_margin="8dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="#2AFFFFFF"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp"
+    app:strokeColor="#50FFFFFF"
+    app:strokeWidth="1dp">
 
-    <ImageView
-        android:id="@+id/signImage"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:scaleType="centerInside"
-        android:padding="8dp"
-        android:contentDescription="@string/zodiac_sign" />
-</com.google.android.material.card.MaterialCardView>
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp">
 
+        <ImageView
+            android:id="@+id/signImage"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:contentDescription="@string/zodiac_sign"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/signName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/signDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#D0FFFFFF"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

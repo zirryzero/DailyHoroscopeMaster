@@ -6,77 +6,203 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_main"
-    android:padding="0dp"
+    android:fitsSystemWindows="true"
     tools:context=".HoroscopeActivity">
 
+    <!-- Top Toolbar / Header -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:shadowColor="#99000000"
+            android:shadowDx="1"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Aries" />
+
+        <ImageButton
+            android:id="@+id/btnRefresh"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/retry"
+            android:src="@drawable/ic_refresh" />
+    </LinearLayout>
+
+    <!-- Main Scrollable Content -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/adViewHoroscope"
+        android:layout_below="@id/topBar"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Sign Icon -->
+            <ImageView
+                android:id="@+id/signHeaderIcon"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/zodiac_sign" />
 
             <TextView
-                android:id="@+id/horoscopeTitle"
+                android:id="@+id/horoscopeDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="12dp"
                 android:shadowColor="#80000000"
                 android:shadowDx="1"
                 android:shadowDy="1"
-                android:shadowRadius="2"
-                android:text=" "
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:shadowRadius="3"
+                android:textColor="#E0FFFFFF"
+                android:textSize="14sp"
+                tools:text="Date: 2026-10-28" />
 
+            <!-- Main Prediction Card -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/predictionCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:padding="20dp"
-                app:cardBackgroundColor="#AAFFFFFF"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="6dp">
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#CCFFFFFF"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/horoscopeText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="6dp"
+                        android:textColor="#1A1A1A"
+                        android:textSize="16sp"
+                        tools:text="Your prediction for today will appear here." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Loading State -->
+            <LinearLayout
+                android:id="@+id/loadingLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ProgressBar
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:indeterminateTint="@android:color/white" />
 
                 <TextView
-                    android:id="@+id/horoscopeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/loading"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <!-- Error State with Retry Button -->
+            <LinearLayout
+                android:id="@+id/errorLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/errorText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:lineSpacingExtra="6dp"
-                    android:padding="16dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-            </com.google.android.material.card.MaterialCardView>
+                    android:shadowColor="#80000000"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="2"
+                    android:text="@string/error_message"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRetry"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/retry" />
+            </LinearLayout>
+
+            <!-- Share Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/shareButton"
                 style="@style/Widget.Material3.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="?attr/colorPrimary"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/share_horoscope"
-                android:textColor="@android:color/white" />
+                app:icon="@drawable/ic_share"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="@android:color/white" />
+
         </LinearLayout>
     </ScrollView>
 
+    <!-- Ad Banner -->
     <com.google.android.gms.ads.AdView
         android:id="@+id/adViewHoroscope"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="0dp"
+        android:layout_centerHorizontal="true"
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-5449126088818586/3470552709" />
 

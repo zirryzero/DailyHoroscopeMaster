@@ -1,43 +1,223 @@
 package com.powerdevelop.dailyhoroscope
 
-import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ScrollView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.powerdevelop.dailyhoroscope.databinding.ActivityHoroscopeBinding
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
 class HoroscopeActivity : AppCompatActivity() {
 
-    private lateinit var horoscopeText: TextView
+    companion object {
+        const val EXTRA_SIGN_ID = "extra_sign_id"
+        const val EXTRA_SIGN_NAME_RES = "extra_sign_name_res"
+        const val EXTRA_BACKGROUND_RES = "extra_background_res"
+
+        private const val BASE_URL = "https://freehoroscopeapi.com/api/v1/get-horoscope/daily"
+        private const val PREFS_NAME = "horoscope_cache"
+        private const val KEY_PREF_TEXT = "cached_text_"
+        private const val KEY_PREF_DATE = "cached_date_"
+    }
+
+    private lateinit var binding: ActivityHoroscopeBinding
     private val client = OkHttpClient()
-    private lateinit var shareButton: Button
-    private var currentHoroscope: String = ""
+
+    private var signId: String = ""
+    private var signDisplayName: String = ""
+    private var currentShareText: String = ""
+    private var currentCall: Call? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_horoscope)
+        binding = ActivityHoroscopeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val adView = findViewById<AdView>(R.id.adViewHoroscope)
+        // Init Ads
         MobileAds.initialize(this) {}
         val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
+        binding.adViewHoroscope.loadAd(adRequest)
 
-        shareButton = findViewById(R.id.shareButton)
-        horoscopeText = findViewById(R.id.horoscopeText)
-        val sign = intent.getStringExtra("sign") ?: return
+        // Read Intent Extras (with backward compatibility)
+        signId = intent.getStringExtra(EXTRA_SIGN_ID)
+            ?: intent.getStringExtra("sign")
+            ?: return
 
-        val rootLayout = findViewById<View>(R.id.horoscopeRoot)
+        val signNameRes = intent.getIntExtra(EXTRA_SIGN_NAME_RES, 0)
+        signDisplayName = if (signNameRes != 0) {
+            getString(signNameRes)
+        } else {
+            signId.replaceFirstChar { it.uppercase() }
+        }
 
-        val backgroundResId = when (sign.lowercase()) {
+        val backgroundRes = intent.getIntExtra(EXTRA_BACKGROUND_RES, getFallbackBackground(signId))
+        binding.horoscopeRoot.setBackgroundResource(backgroundRes)
+        binding.toolbarTitle.text = signDisplayName
+        binding.signHeaderIcon.setImageResource(getSignIcon(signId))
+
+        // Navigation
+        binding.btnBack.setOnClickListener { finish() }
+        binding.btnRefresh.setOnClickListener { fetchHoroscope() }
+        binding.btnRetry.setOnClickListener { fetchHoroscope() }
+
+        // Share button
+        binding.shareButton.setOnClickListener {
+            if (currentShareText.isNotEmpty()) {
+                val shareIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, currentShareText)
+                    type = "text/plain"
+                }
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_horoscope)))
+            }
+        }
+
+        // Show cached version first if available, then refresh
+        loadCachedHoroscope()
+        fetchHoroscope()
+    }
+
+    private fun loadCachedHoroscope() {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val cachedText = prefs.getString(KEY_PREF_TEXT + signId, null)
+        val cachedDate = prefs.getString(KEY_PREF_DATE + signId, null)
+
+        if (!cachedText.isNullOrEmpty()) {
+            displayHoroscope(cachedText, cachedDate ?: "")
+        }
+    }
+
+    private fun saveCachedHoroscope(text: String, date: String) {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit()
+            .putString(KEY_PREF_TEXT + signId, text)
+            .putString(KEY_PREF_DATE + signId, date)
+            .apply()
+    }
+
+    private fun fetchHoroscope() {
+        showLoading()
+        currentCall?.cancel()
+
+        val url = "$BASE_URL?sign=$signId"
+        val request = Request.Builder().url(url).build()
+
+        currentCall = client.newCall(request)
+        currentCall?.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                if (call.isCanceled()) return
+                runOnUiThread {
+                    showError(getString(R.string.error_message))
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (!response.isSuccessful) {
+                    runOnUiThread {
+                        showError(getString(R.string.error_message))
+                    }
+                    return
+                }
+
+                try {
+                    val bodyString = response.body?.string() ?: ""
+                    val json = JSONObject(bodyString)
+                    val data = json.getJSONObject("data")
+
+                    // Safely extract prediction: new API uses "horoscope", legacy used "horoscope_data"
+                    val prediction = when {
+                        data.has("horoscope") -> data.getString("horoscope")
+                        data.has("horoscope_data") -> data.getString("horoscope_data")
+                        else -> throw IllegalArgumentException("Missing horoscope field in response")
+                    }
+                    val date = data.optString("date", "")
+
+                    saveCachedHoroscope(prediction, date)
+
+                    runOnUiThread {
+                        displayHoroscope(prediction, date)
+                    }
+                } catch (ex: Exception) {
+                    runOnUiThread {
+                        showError(getString(R.string.error_message))
+                    }
+                }
+            }
+        })
+    }
+
+    private fun displayHoroscope(prediction: String, date: String) {
+        binding.loadingLayout.visibility = View.GONE
+        binding.errorLayout.visibility = View.GONE
+        binding.predictionCard.visibility = View.VISIBLE
+        binding.shareButton.visibility = View.VISIBLE
+
+        binding.horoscopeText.text = prediction
+        if (date.isNotEmpty()) {
+            binding.horoscopeDateText.visibility = View.VISIBLE
+            binding.horoscopeDateText.text = date
+        } else {
+            binding.horoscopeDateText.visibility = View.GONE
+        }
+
+        currentShareText = """
+            🔮 ${getString(R.string.app_name)}:
+            
+            ♈ $signDisplayName
+            📅 $date
+            
+            ✨ $prediction
+            
+            📲 https://play.google.com/store/apps/details?id=com.powerdevelop.dailyhoroscope
+        """.trimIndent()
+    }
+
+    private fun showLoading() {
+        // If we already have content showing, keep card visible but show subtle loading or just show layout if empty
+        if (binding.horoscopeText.text.isNullOrEmpty()) {
+            binding.predictionCard.visibility = View.GONE
+            binding.shareButton.visibility = View.GONE
+        }
+        binding.loadingLayout.visibility = View.VISIBLE
+        binding.errorLayout.visibility = View.GONE
+    }
+
+    private fun showError(message: String) {
+        binding.loadingLayout.visibility = View.GONE
+        // If we have cached content already displayed, don't hide the card, just inform if needed
+        if (binding.horoscopeText.text.isNullOrEmpty()) {
+            binding.predictionCard.visibility = View.GONE
+            binding.shareButton.visibility = View.GONE
+            binding.errorLayout.visibility = View.VISIBLE
+            binding.errorText.text = message
+        }
+    }
+
+    private fun getSignIcon(sign: String): Int {
+        return when (sign.lowercase()) {
+            "aries" -> R.drawable.aries
+            "taurus" -> R.drawable.taurus
+            "gemini" -> R.drawable.gemini
+            "cancer" -> R.drawable.cancer
+            "leo" -> R.drawable.leo
+            "virgo" -> R.drawable.virgo
+            "libra" -> R.drawable.libra
+            "scorpio" -> R.drawable.scorpio
+            "sagittarius" -> R.drawable.sagittarius
+            "capricorn" -> R.drawable.capricorn
+            "aquarius" -> R.drawable.aquarius
+            "pisces" -> R.drawable.pisces
+            else -> R.drawable.icono
+        }
+    }
+
+    private fun getFallbackBackground(sign: String): Int {
+        return when (sign.lowercase()) {
             "aries" -> R.drawable.background_aries
             "taurus" -> R.drawable.background_taurus
             "gemini" -> R.drawable.background_gemini
@@ -52,52 +232,10 @@ class HoroscopeActivity : AppCompatActivity() {
             "pisces" -> R.drawable.background_pisces
             else -> R.drawable.background_main
         }
-        rootLayout.setBackgroundResource(backgroundResId)
+    }
 
-        val url = "https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=$sign"
-
-        val request = Request.Builder()
-            .url(url)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                runOnUiThread {
-                    horoscopeText.text = getString(R.string.error_message)
-                }
-            }
-
-            @SuppressLint("SetTextI18n")
-            override fun onResponse(call: Call, response: Response) {
-                val json = JSONObject(response.body?.string() ?: "")
-                val data = json.getJSONObject("data")
-                val prediction = data.getString("horoscope_data")
-                val date = data.getString("date")
-
-                runOnUiThread {
-                    "Horoscope for $sign ($date):\n\n$prediction".also { horoscopeText.text = it }
-                }
-                currentHoroscope = """
-                    🔮 Here's my daily horoscope from the Daily Horoscope App:
-
-                    ♈ Sign: ${sign.replaceFirstChar { it.uppercase() }}
-                    📅 Date: $date
-                    ✨ $prediction
-
-                    Download the app and check yours too! 🚀
-                    
-                    📲 Get it here: https://play.google.com/store/apps/details?id=com.powerdevelop.dailyhoroscope
-                    """.trimIndent()
-
-            }
-        })
-        shareButton.setOnClickListener {
-            val shareIntent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, currentHoroscope)
-                type = "text/plain"
-            }
-            startActivity(Intent.createChooser(shareIntent, "Share via"))
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        currentCall?.cancel()
     }
 }

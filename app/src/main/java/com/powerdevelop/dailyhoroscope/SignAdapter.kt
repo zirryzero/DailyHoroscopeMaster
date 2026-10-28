@@ -1,50 +1,45 @@
 package com.powerdevelop.dailyhoroscope
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import android.view.MotionEvent
+import com.powerdevelop.dailyhoroscope.databinding.ItemSignBinding
 
-class SignAdapter(private val context: Context, private val signs: List<Sign>) :
-    RecyclerView.Adapter<SignAdapter.SignViewHolder>() {
+class SignAdapter(
+    private val context: Context,
+    private val signs: List<Sign>
+) : RecyclerView.Adapter<SignAdapter.SignViewHolder>() {
 
-    inner class SignViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.signImage)
-    }
+    inner class SignViewHolder(val binding: ItemSignBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SignViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sign, parent, false)
-        return SignViewHolder(view)
+        val binding = ItemSignBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SignViewHolder(binding)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: SignViewHolder, position: Int) {
         val sign = signs[position]
-        holder.image.setImageResource(sign.imageResId)
+        with(holder.binding) {
+            signImage.setImageResource(sign.imageResId)
+            signName.setText(sign.nameResId)
+            signDate.setText(sign.dateRangeResId)
 
-        val animation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        holder.itemView.startAnimation(animation)
+            val animation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+            root.startAnimation(animation)
 
-        holder.itemView.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> v.elevation = 12f
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> v.elevation = 4f
+            root.setOnClickListener {
+                val intent = Intent(context, HoroscopeActivity::class.java).apply {
+                    putExtra(HoroscopeActivity.EXTRA_SIGN_ID, sign.id)
+                    putExtra(HoroscopeActivity.EXTRA_SIGN_NAME_RES, sign.nameResId)
+                    putExtra(HoroscopeActivity.EXTRA_BACKGROUND_RES, sign.backgroundResId)
+                }
+                context.startActivity(intent)
             }
-            false
-        }
-
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, HoroscopeActivity::class.java)
-            intent.putExtra("sign", sign.name.lowercase())
-            context.startActivity(intent)
         }
     }
 
-    override fun getItemCount() = signs.size
+    override fun getItemCount(): Int = signs.size
 }
