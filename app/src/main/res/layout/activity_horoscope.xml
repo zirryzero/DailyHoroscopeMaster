@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true"
     tools:context=".HoroscopeActivity">
 
-    <!-- Top Toolbar / Header -->
+    <!-- Top Toolbar -->
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
@@ -17,12 +17,12 @@
         android:layout_alignParentTop="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="8dp">
+        android:paddingHorizontal="4dp">
 
         <ImageButton
             android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/back"
             android:src="@drawable/ic_arrow_back" />
@@ -35,8 +35,8 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:shadowColor="#99000000"
             android:shadowDx="1"
             android:shadowDy="2"
@@ -46,10 +46,29 @@
             android:textStyle="bold"
             tools:text="Aries" />
 
+        <!-- Favorite button -->
+        <ImageButton
+            android:id="@+id/btnFavorite"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/favorite"
+            android:src="@drawable/ic_star_border" />
+
+        <!-- Font size adjustment -->
+        <ImageButton
+            android:id="@+id/btnFontSize"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/text_size"
+            android:src="@drawable/ic_text_size" />
+
+        <!-- Refresh button -->
         <ImageButton
             android:id="@+id/btnRefresh"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/retry"
             android:src="@drawable/ic_refresh" />
@@ -74,10 +93,10 @@
             <!-- Sign Icon -->
             <ImageView
                 android:id="@+id/signHeaderIcon"
-                android:layout_width="88dp"
-                android:layout_height="88dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:contentDescription="@string/zodiac_sign" />
 
             <TextView
@@ -93,13 +112,107 @@
                 android:textSize="14sp"
                 tools:text="Date: 2026-10-28" />
 
+            <!-- Lucky Numbers & Color Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/luckyCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="#2AFFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#50FFFFFF"
+                app:strokeWidth="1dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <!-- Lucky Numbers -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lucky_numbers"
+                            android:textColor="#D0FFFFFF"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/luckyNumbersText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            tools:text="7 • 21 • 45" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#50FFFFFF" />
+
+                    <!-- Lucky Color -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lucky_color"
+                            android:textColor="#D0FFFFFF"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:id="@+id/luckyColorCircle"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/circle_indicator" />
+
+                            <TextView
+                                android:id="@+id/luckyColorText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/white"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                tools:text="Dorado" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Main Prediction Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/predictionCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#CCFFFFFF"
+                android:layout_marginBottom="14dp"
+                app:cardBackgroundColor="#D9FFFFFF"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="6dp"
                 app:strokeColor="#FFFFFF"
@@ -179,19 +292,38 @@
                     android:text="@string/retry" />
             </LinearLayout>
 
-            <!-- Share Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/shareButton"
-                style="@style/Widget.Material3.Button"
-                android:layout_width="wrap_content"
+            <!-- Action Buttons: Share & Copy -->
+            <LinearLayout
+                android:id="@+id/actionButtonsLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:text="@string/share_horoscope"
-                app:icon="@drawable/ic_share"
-                app:iconGravity="textStart"
-                app:iconPadding="8dp"
-                app:iconTint="@android:color/white" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/shareButton"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/share_horoscope"
+                    app:icon="@drawable/ic_share"
+                    app:iconGravity="textStart"
+                    app:iconPadding="6dp"
+                    app:iconTint="@android:color/white" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/copyButton"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/copy_horoscope"
+                    app:icon="@drawable/ic_copy"
+                    app:iconGravity="textStart"
+                    app:iconPadding="6dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

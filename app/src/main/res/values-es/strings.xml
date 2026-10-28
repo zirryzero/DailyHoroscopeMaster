@@ -5,7 +5,9 @@
     <string name="retry">Reintentar</string>
     <string name="zodiac_sign">Signo zodiacal</string>
     <string name="choose_your_zodiac_sign">Elige tu Signo Zodiacal</string>
-    <string name="share_horoscope">Compartir Horóscopo</string>
+    <string name="share_horoscope">Compartir</string>
+    <string name="copy_horoscope">Copiar</string>
+    <string name="copied_to_clipboard">Horóscopo copiado al portapapeles</string>
     <string name="loading_title">Cargando...</string>
     <string name="back">Atrás</string>
     <string name="settings">Ajustes</string>
@@ -16,52 +18,60 @@
     <string name="lang_english">Inglés</string>
     <string name="cancel">Cancelar</string>
 
+    <!-- Extras: Favorito & Suerte -->
+    <string name="your_sign">Tu Signo Favorito</string>
+    <string name="favorite">Favorito</string>
+    <string name="mark_as_favorite">Elegir como mi signo</string>
+    <string name="lucky_numbers">Números de la Suerte</string>
+    <string name="lucky_color">Color del Día</string>
+    <string name="text_size">Tamaño de letra</string>
+
+    <!-- Colores de la suerte -->
+    <string name="color_gold">Dorado</string>
+    <string name="color_emerald">Verde Esmeralda</string>
+    <string name="color_ruby">Rojo Rubí</string>
+    <string name="color_sapphire">Azul Zafiro</string>
+    <string name="color_amethyst">Amatista</string>
+    <string name="color_turquoise">Turquesa</string>
+    <string name="color_coral">Coral</string>
+    <string name="color_silver">Plateado</string>
+    <string name="color_violet">Violeta</string>
+    <string name="color_amber">Ámbar</string>
+
     <!-- Nombres de los signos y rangos de fechas ordenados por mes -->
-    <!-- 1. Enero: Capricornio (22 Dic - 19 Ene) -->
     <string name="sign_capricorn">Capricornio</string>
     <string name="date_capricorn">22 Dic - 19 Ene</string>
 
-    <!-- 2. Febrero: Acuario (20 Ene - 18 Feb) -->
     <string name="sign_aquarius">Acuario</string>
     <string name="date_aquarius">20 Ene - 18 Feb</string>
 
-    <!-- 3. Marzo: Piscis (19 Feb - 20 Mar) -->
     <string name="sign_pisces">Piscis</string>
     <string name="date_pisces">19 Feb - 20 Mar</string>
 
-    <!-- 4. Abril: Aries (21 Mar - 19 Abr) -->
     <string name="sign_aries">Aries</string>
     <string name="date_aries">21 Mar - 19 Abr</string>
 
-    <!-- 5. Mayo: Tauro (20 Abr - 20 May) -->
     <string name="sign_taurus">Tauro</string>
     <string name="date_taurus">20 Abr - 20 May</string>
 
-    <!-- 6. Junio: Géminis (21 May - 20 Jun) -->
     <string name="sign_gemini">Géminis</string>
     <string name="date_gemini">21 May - 20 Jun</string>
 
-    <!-- 7. Julio: Cáncer (21 Jun - 22 Jul) -->
     <string name="sign_cancer">Cáncer</string>
     <string name="date_cancer">21 Jun - 22 Jul</string>
 
-    <!-- 8. Agosto: Leo (23 Jul - 22 Ago) -->
     <string name="sign_leo">Leo</string>
     <string name="date_leo">23 Jul - 22 Ago</string>
 
-    <!-- 9. Septiembre: Virgo (23 Ago - 22 Sep) -->
     <string name="sign_virgo">Virgo</string>
     <string name="date_virgo">23 Ago - 22 Sep</string>
 
-    <!-- 10. Octubre: Libra (23 Sep - 22 Oct) -->
     <string name="sign_libra">Libra</string>
     <string name="date_libra">23 Sep - 22 Oct</string>
 
-    <!-- 11. Noviembre: Escorpio (23 Oct - 21 Nov) -->
     <string name="sign_scorpio">Escorpio</string>
     <string name="date_scorpio">23 Oct - 21 Nov</string>
 
-    <!-- 12. Diciembre: Sagitario (22 Nov - 21 Dic) -->
     <string name="sign_sagittarius">Sagitario</string>
     <string name="date_sagittarius">22 Nov - 21 Dic</string>
 </resources>

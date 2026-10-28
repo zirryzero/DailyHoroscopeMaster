@@ -1,9 +1,14 @@
 package com.powerdevelop.dailyhoroscope
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -23,6 +28,7 @@ class HoroscopeActivity : AppCompatActivity() {
         private const val PREFS_NAME = "horoscope_cache"
         private const val KEY_PREF_TEXT = "cached_text_"
         private const val KEY_PREF_DATE = "cached_date_"
+        private const val KEY_FONT_SIZE = "key_font_size"
     }
 
     private lateinit var binding: ActivityHoroscopeBinding
@@ -30,8 +36,14 @@ class HoroscopeActivity : AppCompatActivity() {
 
     private var signId: String = ""
     private var signDisplayName: String = ""
+    private var currentPrediction: String = ""
+    private var currentDate: String = ""
     private var currentShareText: String = ""
     private var currentCall: Call? = null
+
+    // Font size options: Normal (16sp), Large (19sp), Extra Large (22sp)
+    private val fontSizes = arrayOf(16f, 19f, 22f)
+    private var currentFontSizeIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +72,19 @@ class HoroscopeActivity : AppCompatActivity() {
         binding.toolbarTitle.text = signDisplayName
         binding.signHeaderIcon.setImageResource(getSignIcon(signId))
 
+        // Favorite State
+        updateFavoriteIcon()
+        binding.btnFavorite.setOnClickListener {
+            FavoriteManager.toggleFavorite(this, signId)
+            updateFavoriteIcon()
+        }
+
+        // Font Size Setup
+        loadSavedFontSize()
+        binding.btnFontSize.setOnClickListener {
+            showFontSizeDialog()
+        }
+
         // Navigation
         binding.btnBack.setOnClickListener { finish() }
         binding.btnRefresh.setOnClickListener { fetchHoroscope() }
@@ -77,9 +102,53 @@ class HoroscopeActivity : AppCompatActivity() {
             }
         }
 
+        // Copy button
+        binding.copyButton.setOnClickListener {
+            if (currentPrediction.isNotEmpty()) {
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Horoscope", currentShareText)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         // Show cached version first if available, then refresh
         loadCachedHoroscope()
         fetchHoroscope()
+    }
+
+    private fun updateFavoriteIcon() {
+        val isFav = FavoriteManager.isFavorite(this, signId)
+        binding.btnFavorite.setImageResource(
+            if (isFav) R.drawable.ic_star_filled else R.drawable.ic_star_border
+        )
+    }
+
+    private fun loadSavedFontSize() {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        currentFontSizeIndex = prefs.getInt(KEY_FONT_SIZE, 0).coerceIn(0, fontSizes.size - 1)
+        binding.horoscopeText.textSize = fontSizes[currentFontSizeIndex]
+    }
+
+    private fun showFontSizeDialog() {
+        val options = arrayOf(
+            "Normal (16sp)",
+            "Grande / Large (19sp)",
+            "Muy Grande / Extra Large (22sp)"
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.text_size)
+            .setSingleChoiceItems(options, currentFontSizeIndex) { dialog, which ->
+                currentFontSizeIndex = which
+                binding.horoscopeText.textSize = fontSizes[which]
+                getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    .edit()
+                    .putInt(KEY_FONT_SIZE, which)
+                    .apply()
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun getCacheKey(): String {
@@ -143,7 +212,7 @@ class HoroscopeActivity : AppCompatActivity() {
                     }
                     val date = data.optString("date", "")
 
-                    // Translate to Spanish if user configured/system language is Spanish
+                    // Translate to Spanish if configured/system language is Spanish
                     val finalPrediction = if (HoroscopeTranslator.shouldTranslateToSpanish(this@HoroscopeActivity)) {
                         HoroscopeTranslator.translateEnToEs(client, rawPrediction)
                     } else {
@@ -165,10 +234,13 @@ class HoroscopeActivity : AppCompatActivity() {
     }
 
     private fun displayHoroscope(prediction: String, date: String) {
+        currentPrediction = prediction
+        currentDate = date
+
         binding.loadingLayout.visibility = View.GONE
         binding.errorLayout.visibility = View.GONE
         binding.predictionCard.visibility = View.VISIBLE
-        binding.shareButton.visibility = View.VISIBLE
+        binding.actionButtonsLayout.visibility = View.VISIBLE
 
         binding.horoscopeText.text = prediction
         if (date.isNotEmpty()) {
@@ -178,11 +250,24 @@ class HoroscopeActivity : AppCompatActivity() {
             binding.horoscopeDateText.visibility = View.GONE
         }
 
+        // Setup Lucky Extras
+        val extras = HoroscopeExtrasGenerator.generate(signId, if (date.isNotEmpty()) date else "daily")
+        binding.luckyCard.visibility = View.VISIBLE
+        binding.luckyNumbersText.text = extras.luckyNumbers.joinToString(" • ")
+        binding.luckyColorText.setText(extras.colorNameRes)
+
+        val circleDrawable = binding.luckyColorCircle.background as? GradientDrawable
+            ?: GradientDrawable().apply { shape = GradientDrawable.OVAL }
+        circleDrawable.setColor(extras.colorHex)
+        binding.luckyColorCircle.background = circleDrawable
+
         currentShareText = """
             🔮 ${getString(R.string.app_name)}:
             
             ♈ $signDisplayName
             📅 $date
+            🍀 ${getString(R.string.lucky_numbers)}: ${extras.luckyNumbers.joinToString(", ")}
+            🎨 ${getString(R.string.lucky_color)}: ${getString(extras.colorNameRes)}
             
             ✨ $prediction
             
@@ -193,7 +278,8 @@ class HoroscopeActivity : AppCompatActivity() {
     private fun showLoading() {
         if (binding.horoscopeText.text.isNullOrEmpty()) {
             binding.predictionCard.visibility = View.GONE
-            binding.shareButton.visibility = View.GONE
+            binding.actionButtonsLayout.visibility = View.GONE
+            binding.luckyCard.visibility = View.GONE
         }
         binding.loadingLayout.visibility = View.VISIBLE
         binding.errorLayout.visibility = View.GONE
@@ -203,7 +289,8 @@ class HoroscopeActivity : AppCompatActivity() {
         binding.loadingLayout.visibility = View.GONE
         if (binding.horoscopeText.text.isNullOrEmpty()) {
             binding.predictionCard.visibility = View.GONE
-            binding.shareButton.visibility = View.GONE
+            binding.actionButtonsLayout.visibility = View.GONE
+            binding.luckyCard.visibility = View.GONE
             binding.errorLayout.visibility = View.VISIBLE
             binding.errorText.text = message
         }
