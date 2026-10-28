@@ -5,7 +5,7 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowLightStatusBar">true</item> <!-- para íconos oscuros -->
+        <item name="android:windowLightStatusBar">false</item> <!-- Light status icons over the celestial background. -->
         <item name="android:fitsSystemWindows">false</item>
     </style>
 </resources>

@@ -35,8 +35,8 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:shadowColor="#99000000"
             android:shadowDx="1"
             android:shadowDy="2"
@@ -46,11 +46,20 @@
             android:textStyle="bold"
             tools:text="Aries" />
 
+        <!-- Text-to-Speech Listen Button -->
+        <ImageButton
+            android:id="@+id/btnTts"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/listen_horoscope"
+            android:src="@drawable/ic_volume_up" />
+
         <!-- Favorite button -->
         <ImageButton
             android:id="@+id/btnFavorite"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/favorite"
             android:src="@drawable/ic_star_border" />
@@ -58,8 +67,8 @@
         <!-- Font size adjustment -->
         <ImageButton
             android:id="@+id/btnFontSize"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/text_size"
             android:src="@drawable/ic_text_size" />
@@ -67,8 +76,8 @@
         <!-- Refresh button -->
         <ImageButton
             android:id="@+id/btnRefresh"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/retry"
             android:src="@drawable/ic_refresh" />

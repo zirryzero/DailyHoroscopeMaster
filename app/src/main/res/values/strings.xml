@@ -26,6 +26,34 @@
     <string name="lucky_color">Lucky Color</string>
     <string name="text_size">Text Size</string>
 
+    <!-- Quick Tools & Actions -->
+    <string name="find_my_sign">Find My Sign</string>
+    <string name="find_my_sign_desc">Discover your zodiac sign with your birth date</string>
+    <string name="sign_compatibility">Compatibility</string>
+    <string name="sign_compatibility_desc">Check compatibility between two signs</string>
+    <string name="select_birth_date">Select your birth date</string>
+    <string name="first_sign">First sign</string>
+    <string name="second_sign">Second sign</string>
+    <string name="calculate_compatibility">Calculate Compatibility</string>
+    <string name="compatibility_result">Compatibility Result</string>
+    <string name="love_compatibility">Love</string>
+    <string name="friendship_compatibility">Friendship</string>
+    <string name="work_compatibility">Work</string>
+
+    <!-- Notifications & Rating -->
+    <string name="daily_reminder">Daily Reminder</string>
+    <string name="reminder_enabled">Daily notification enabled for %s</string>
+    <string name="reminder_disabled">Daily notification disabled</string>
+    <string name="notification_title">Daily Horoscope</string>
+    <string name="notification_content">✨ Your daily horoscope is ready! Find out what the stars have for you today.</string>
+    <string name="rate_app">Rate the App</string>
+    <string name="rate_app_title">Enjoying Daily Horoscope?</string>
+    <string name="rate_app_desc">If you find this app helpful, please take a moment to leave a review on Google Play. It helps us a lot!</string>
+    <string name="rate_now">Rate Now ⭐</string>
+    <string name="later">Later</string>
+    <string name="listen_horoscope">Listen</string>
+    <string name="stop_listening">Stop</string>
+
     <!-- Lucky Colors -->
     <string name="color_gold">Gold</string>
     <string name="color_emerald">Emerald Green</string>

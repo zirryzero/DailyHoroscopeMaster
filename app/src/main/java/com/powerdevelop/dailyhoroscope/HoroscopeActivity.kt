@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -16,8 +17,9 @@ import com.powerdevelop.dailyhoroscope.databinding.ActivityHoroscopeBinding
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import java.util.Locale
 
-class HoroscopeActivity : AppCompatActivity() {
+class HoroscopeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     companion object {
         const val EXTRA_SIGN_ID = "extra_sign_id"
@@ -40,6 +42,11 @@ class HoroscopeActivity : AppCompatActivity() {
     private var currentDate: String = ""
     private var currentShareText: String = ""
     private var currentCall: Call? = null
+
+    // Text to Speech
+    private var tts: TextToSpeech? = null
+    private var isTtsReady = false
+    private var isSpeaking = false
 
     // Font size options: Normal (16sp), Large (19sp), Extra Large (22sp)
     private val fontSizes = arrayOf(16f, 19f, 22f)
@@ -85,6 +92,12 @@ class HoroscopeActivity : AppCompatActivity() {
             showFontSizeDialog()
         }
 
+        // TTS Setup
+        tts = TextToSpeech(this, this)
+        binding.btnTts.setOnClickListener {
+            toggleTts()
+        }
+
         // Navigation
         binding.btnBack.setOnClickListener { finish() }
         binding.btnRefresh.setOnClickListener { fetchHoroscope() }
@@ -112,9 +125,38 @@ class HoroscopeActivity : AppCompatActivity() {
             }
         }
 
+        // Prompt review on milestone views
+        ReviewPromptManager.recordHoroscopeView(this)
+
         // Show cached version first if available, then refresh
         loadCachedHoroscope()
         fetchHoroscope()
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val targetLocale = if (HoroscopeTranslator.shouldTranslateToSpanish(this)) {
+                Locale("es")
+            } else {
+                Locale.US
+            }
+            val res = tts?.setLanguage(targetLocale)
+            isTtsReady = res != TextToSpeech.LANG_MISSING_DATA && res != TextToSpeech.LANG_NOT_SUPPORTED
+        }
+    }
+
+    private fun toggleTts() {
+        if (!isTtsReady || currentPrediction.isEmpty()) return
+        if (isSpeaking) {
+            tts?.stop()
+            isSpeaking = false
+            binding.btnTts.setImageResource(R.drawable.ic_volume_up)
+        } else {
+            val textToRead = "$signDisplayName. $currentPrediction"
+            tts?.speak(textToRead, TextToSpeech.QUEUE_FLUSH, null, "HOROSCOPE_TTS")
+            isSpeaking = true
+            binding.btnTts.setImageResource(R.drawable.ic_volume_off)
+        }
     }
 
     private fun updateFavoriteIcon() {
@@ -212,7 +254,6 @@ class HoroscopeActivity : AppCompatActivity() {
                     }
                     val date = data.optString("date", "")
 
-                    // Translate to Spanish if configured/system language is Spanish
                     val finalPrediction = if (HoroscopeTranslator.shouldTranslateToSpanish(this@HoroscopeActivity)) {
                         HoroscopeTranslator.translateEnToEs(client, rawPrediction)
                     } else {
@@ -332,8 +373,18 @@ class HoroscopeActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        if (isSpeaking) {
+            tts?.stop()
+            isSpeaking = false
+            binding.btnTts.setImageResource(R.drawable.ic_volume_up)
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         currentCall?.cancel()
+        tts?.shutdown()
     }
 }

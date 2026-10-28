@@ -26,6 +26,34 @@
     <string name="lucky_color">Color del Día</string>
     <string name="text_size">Tamaño de letra</string>
 
+    <!-- Herramientas Rápidas -->
+    <string name="find_my_sign">Descubrir mi Signo</string>
+    <string name="find_my_sign_desc">Encuentra tu signo según tu fecha de nacimiento</string>
+    <string name="sign_compatibility">Compatibilidad</string>
+    <string name="sign_compatibility_desc">Calcula la afinidad entre dos signos</string>
+    <string name="select_birth_date">Selecciona tu fecha de nacimiento</string>
+    <string name="first_sign">Primer signo</string>
+    <string name="second_sign">Segundo signo</string>
+    <string name="calculate_compatibility">Calcular Compatibilidad</string>
+    <string name="compatibility_result">Resultado de Compatibilidad</string>
+    <string name="love_compatibility">Amor</string>
+    <string name="friendship_compatibility">Amistad</string>
+    <string name="work_compatibility">Trabajo</string>
+
+    <!-- Notificaciones & Calificación -->
+    <string name="daily_reminder">Recordatorio Diario</string>
+    <string name="reminder_enabled">Notificación diaria activada para las %s</string>
+    <string name="reminder_disabled">Notificación diaria desactivada</string>
+    <string name="notification_title">Horóscopo Diario</string>
+    <string name="notification_content">✨ ¡Tu predicción de hoy está lista! Descubre qué tienen los astros para ti.</string>
+    <string name="rate_app">Calificar la App</string>
+    <string name="rate_app_title">¿Te gusta Horóscopo Diario?</string>
+    <string name="rate_app_desc">Si disfrutas la app, déjanos una reseña en Google Play. ¡Nos ayuda mucho a seguir mejorando!</string>
+    <string name="rate_now">Calificar Ahora ⭐</string>
+    <string name="later">Más tarde</string>
+    <string name="listen_horoscope">Escuchar</string>
+    <string name="stop_listening">Detener</string>
+
     <!-- Colores de la suerte -->
     <string name="color_gold">Dorado</string>
     <string name="color_emerald">Verde Esmeralda</string>
