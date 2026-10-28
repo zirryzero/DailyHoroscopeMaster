@@ -77,10 +77,10 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="#2AFFFFFF"
+            app:cardBackgroundColor="#22FFFFFF"
             app:cardCornerRadius="14dp"
-            app:cardElevation="2dp"
-            app:strokeColor="#50FFFFFF"
+            app:cardElevation="0dp"
+            app:strokeColor="#35FFFFFF"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -119,10 +119,10 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="#2AFFFFFF"
+            app:cardBackgroundColor="#22FFFFFF"
             app:cardCornerRadius="14dp"
-            app:cardElevation="2dp"
-            app:strokeColor="#50FFFFFF"
+            app:cardElevation="0dp"
+            app:strokeColor="#35FFFFFF"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -165,11 +165,11 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         android:visibility="gone"
-        app:cardBackgroundColor="#3DFFFFFF"
+        app:cardBackgroundColor="#30FFFFFF"
         app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        app:strokeColor="#70FFFFFF"
-        app:strokeWidth="1.5dp"
+        app:cardElevation="0dp"
+        app:strokeColor="#50FFFFFF"
+        app:strokeWidth="1dp"
         tools:visibility="visible">
 
         <LinearLayout

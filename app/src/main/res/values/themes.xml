@@ -1,8 +1,26 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.DailyHoroscope" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Customize theme colors with elegant golden-amber tones instead of default dynamic blue/purple -->
+        <item name="colorPrimary">#D4AF37</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="colorPrimaryContainer">#4A3B18</item>
+        <item name="colorOnPrimaryContainer">#FFF3D0</item>
+
+        <item name="colorSecondary">#E6C280</item>
+        <item name="colorOnSecondary">#000000</item>
+        <item name="colorSecondaryContainer">#3D3425</item>
+        <item name="colorOnSecondaryContainer">#FFE8B8</item>
+
+        <!-- Neutral surface / container colors with no blue cast -->
+        <item name="colorSurface">#1C1B1F</item>
+        <item name="colorOnSurface">#E6E1E5</item>
+        <item name="colorSurfaceVariant">#2B2930</item>
+        <item name="colorOnSurfaceVariant">#CAC4D0</item>
+        <item name="colorSurfaceContainer">#201F24</item>
+        <item name="colorSurfaceContainerHigh">#2B2930</item>
+
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:fitsSystemWindows">false</item>
     </style>

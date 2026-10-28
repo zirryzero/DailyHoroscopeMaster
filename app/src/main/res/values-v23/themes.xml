@@ -2,10 +2,25 @@
 <resources>
 
     <style name="Base.Theme.DailyHoroscope" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#D4AF37</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="colorPrimaryContainer">#4A3B18</item>
+        <item name="colorOnPrimaryContainer">#FFF3D0</item>
+
+        <item name="colorSecondary">#E6C280</item>
+        <item name="colorOnSecondary">#000000</item>
+        <item name="colorSecondaryContainer">#3D3425</item>
+        <item name="colorOnSecondaryContainer">#FFE8B8</item>
+
+        <item name="colorSurface">#1C1B1F</item>
+        <item name="colorOnSurface">#E6E1E5</item>
+        <item name="colorSurfaceVariant">#2B2930</item>
+        <item name="colorOnSurfaceVariant">#CAC4D0</item>
+        <item name="colorSurfaceContainer">#201F24</item>
+        <item name="colorSurfaceContainerHigh">#2B2930</item>
+
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowLightStatusBar">false</item> <!-- Light status icons over the celestial background. -->
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:fitsSystemWindows">false</item>
     </style>
 </resources>

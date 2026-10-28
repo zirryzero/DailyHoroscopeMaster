@@ -128,10 +128,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:visibility="gone"
-                app:cardBackgroundColor="#2AFFFFFF"
+                app:cardBackgroundColor="#22FFFFFF"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:strokeColor="#50FFFFFF"
+                app:cardElevation="0dp"
+                app:strokeColor="#35FFFFFF"
                 app:strokeWidth="1dp"
                 tools:visibility="visible">
 
@@ -215,16 +215,16 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Main Prediction Card -->
+            <!-- Main Prediction Card (Neutral pure white translucent background) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/predictionCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="14dp"
-                app:cardBackgroundColor="#D9FFFFFF"
+                app:cardBackgroundColor="#F2FFFFFF"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="6dp"
-                app:strokeColor="#FFFFFF"
+                app:cardElevation="0dp"
+                app:strokeColor="#60FFFFFF"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -294,11 +294,12 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnRetry"
-                    style="@style/Widget.Material3.Button.TonalButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="@string/retry" />
+                    android:backgroundTint="#D4AF37"
+                    android:text="@string/retry"
+                    android:textColor="#000000" />
             </LinearLayout>
 
             <!-- Action Buttons: Share & Copy -->
@@ -312,26 +313,33 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/shareButton"
-                    style="@style/Widget.Material3.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:backgroundTint="#D4AF37"
                     android:text="@string/share_horoscope"
+                    android:textColor="#000000"
+                    app:cornerRadius="14dp"
                     app:icon="@drawable/ic_share"
                     app:iconGravity="textStart"
                     app:iconPadding="6dp"
-                    app:iconTint="@android:color/white" />
+                    app:iconTint="#000000" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/copyButton"
-                    style="@style/Widget.Material3.Button.TonalButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:backgroundTint="#33FFFFFF"
                     android:text="@string/copy_horoscope"
+                    android:textColor="@android:color/white"
+                    app:cornerRadius="14dp"
                     app:icon="@drawable/ic_copy"
                     app:iconGravity="textStart"
-                    app:iconPadding="6dp" />
+                    app:iconPadding="6dp"
+                    app:iconTint="@android:color/white"
+                    app:strokeColor="#50FFFFFF"
+                    app:strokeWidth="1dp" />
             </LinearLayout>
 
         </LinearLayout>
